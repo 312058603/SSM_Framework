@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gmcx.wpx.dao.UserDao">
+
+    <resultMap id="User" type="com.gmcx.wpx.model.User">
+        <id property="user_Id" column="user_Id"/>
+        <result property="user_Name" column="user_Name"/>
+        <result property="user_Age" column="user_Age"/>
+    </resultMap>
+
+    <resultMap id="UserToRole" type="com.gmcx.wpx.model.UserToRole" extends="User">
+        <association property="role" javaType="com.gmcx.wpx.model.Role">
+            <id property="role_Id" column="role_Id"/>
+            <result property="user_Id" column="user_Id"/>
+            <result property="role_Name" column="role_Name"/>
+        </association>
+    </resultMap>
+
+    <resultMap id="UserToBooks" type="com.gmcx.wpx.model.UserToBooks" extends="User">
+        <collection property="bookList" ofType="com.gmcx.wpx.model.Book">
+            <id property="book_Id" column="book_Id"/>
+            <result property="user_Id" column="user_Id"/>
+            <result property="book_Name" column="book_Name"/>
+            <result property="book_Price" column="book_Price"/>
+        </collection>
+    </resultMap>
+
+    <insert id="insertUser" parameterType="com.gmcx.wpx.model.User" useGeneratedKeys="true" keyProperty="user_Id">
+        insert into user (user_Name,user_Age) values (#{user_Name},#{user_Age})
+    </insert>
+
+    <insert id="insertUserList" parameterType="java.util.List">
+        insert into user (book_Id,user_Name,user_Age) values
+        <foreach collection="list" index="index" item="item" separator=",">
+            (#{item.book_Id},#{item.user_Name},#{item.user_Age})
+        </foreach>
+    </insert>
+
+    <delete id="deleteUser" parameterType="com.gmcx.wpx.model.User">
+        delete from user
+        <where>
+            <if test="id!=-1">
+                user_Id=#{id}
+            </if>
+            <if test="name!=null">
+                and user_Name=#{name}
+            </if>
+            <if test="age!=-1">
+                and user_Age=#{age}
+            </if>
+        </where>
+    </delete>
+
+    <update id="updateUser" parameterType="com.gmcx.wpx.model.User">
+        update user
+        <set>
+            <if test="name!=null">
+                user_Name=#{name},
+            </if>
+            <if test="age!=-1">
+                user_Age=#{age},
+            </if>
+        </set>
+        <where>
+            <if test="id!=-1">
+                user_Id=#{id}
+            </if>
+        </where>
+    </update>
+
+    <select id="selectUser" parameterType="java.util.Map" resultMap="User">
+        select * from user where user_Id=#{user_Id}
+    </select>
+
+    <!--<select id="selectUser" parameterType="int" resultMap="User">-->
+        <!--select * from user as A inner join book as B on A.user_Id=B.user_Id where A.user_Id=#{user_Id}-->
+    <!--</select>-->
+
+    <select id="selectUserToBooks" parameterType="int" resultMap="UserToBooks">
+        select * from user as A inner join book as B on A.user_Id=B.user_Id where A.user_Id=#{user_Id}
+    </select>
+
+
+    <select id="selectUserToRole" parameterType="int" resultMap="UserToRole">
+        select * from user as A inner join role as B on A.user_Id=B.user_Id where A.user_Id=#{user_Id}
+    </select>
+
+    <select id="selectUsers" resultMap="User">
+        select * from user
+    </select>
+
+</mapper>

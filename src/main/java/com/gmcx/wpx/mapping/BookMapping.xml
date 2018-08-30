@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gmcx.wpx.dao.BookDao">
+
+    <insert id="insertBook" parameterType="java.util.Map">
+        insert into book (user_Id,book_Name,book_Price) values (#{user_Id},#{book_Name},#{book_Price})
+    </insert>
+
+</mapper>

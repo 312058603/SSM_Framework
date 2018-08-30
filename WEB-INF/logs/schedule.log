@@ -1,0 +1,4 @@
+2018-01-18 23:43:08  [ main:0 ] - [ INFO ]  info 
+2018-01-18 23:43:08  [ main:1 ] - [ ERROR ]  error
+2018-01-18 23:43:08  [ MyTest.testLog4j(MyTest.java:122):org.junit.Test:main:1 ] - [ ERROR ]  error
+2018-01-18 23:43:08  [ main:3 ] - [ WARN ]  warn
