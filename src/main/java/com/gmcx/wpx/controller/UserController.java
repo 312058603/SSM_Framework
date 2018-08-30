@@ -35,7 +35,7 @@ public class UserController extends BaseController {
 
     @ModelAttribute(value = "testUser") //在所有的UserController方法执行之前执行
     private String testModelAttribute() {
-        return "调用成功";
+        return "调用成功 hello world";
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/testMap")
